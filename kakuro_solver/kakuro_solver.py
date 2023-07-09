@@ -4,6 +4,10 @@ pygame.init()
 num_rows=int(input("Enter no. of rows"))
 num_cols=int(input("Enter no. of columns"))
 
+
+print("Press 'b','w' and 's' for blackening and whitening the cell and solving") 
+print("Press values 1-9 and Enter to toggle between horizontal and vertical sums")
+
 class cell:
     def __init__(self):
         self.vertical_sum=0
@@ -18,20 +22,21 @@ for i in range(num_rows+1):
         temp.append(cell())
     kakuro.append(temp)
 
-gap=30
+gap=50
 SCREEN_WIDTH=gap*num_cols
 SCREEN_HEIGHT=gap*num_rows
 
 white=pygame.Color(255,255,255)
 black=pygame.Color(0,0,0)
 red=pygame.Color(255,0,0)
+blue=pygame.Color(0,0,255)
 
 screen=pygame.display.set_mode((SCREEN_WIDTH+2,SCREEN_HEIGHT))
 
 pygame.display.set_caption('Kakuro Solver')
 
-font1 = pygame.font.SysFont("calibri", 15)
-font2 = pygame.font.SysFont("calibri", 20)
+font1 = pygame.font.SysFont("calibri", 20)
+font2 = pygame.font.SysFont("calibri", 40)
 
 curr_mouse_x=0
 curr_mouse_y=0
@@ -130,14 +135,14 @@ def draw_kakuro():
 
                 if kakuro[i+1][j+1].vertical_sum>0 and kakuro[i+1][j+1].vertical_sum<100:
                     text1=font1.render(str(kakuro[i+1][j+1].vertical_sum),True,white)
-                    screen.blit(text1,(j*gap+5,i*gap+10))
+                    screen.blit(text1,(j*gap+5,i*gap+25))
 
                 if kakuro[i+1][j+1].horizontal_sum>0 and kakuro[i+1][j+1].horizontal_sum<100:
                     text2=font1.render(str(kakuro[i+1][j+1].horizontal_sum),True,white)
-                    screen.blit(text2,(j*gap+15,i*gap))
+                    screen.blit(text2,(j*gap+25,i*gap))
             else:
                 text1=font2.render(str(kakuro[i+1][j+1].val),True,black)
-                screen.blit(text1,(j*gap+10,i*gap+5))
+                screen.blit(text1,(j*gap+15,i*gap+5))
 
     for i in range(num_rows+1):
         pygame.draw.line(screen,black,(0,i*gap),(SCREEN_WIDTH,i*gap),width=2)
@@ -148,11 +153,6 @@ def draw_kakuro():
     pygame.draw.line(screen,red,(curr_mouse_y*gap,curr_mouse_x*gap),(curr_mouse_y*gap,curr_mouse_x*gap+gap),width=3)
     pygame.draw.line(screen,red,(curr_mouse_y*gap+gap,curr_mouse_x*gap),(curr_mouse_y*gap+gap,curr_mouse_x*gap+gap),width=3)
     pygame.draw.line(screen,red,(curr_mouse_y*gap,curr_mouse_x*gap+gap),(curr_mouse_y*gap+gap,curr_mouse_x*gap+gap),width=3)
-
-    # text2=font2.render("Press 's' for the solution and 'r' for reset" ,True,green)
-    # text3=font2.render("Press values 1-9 and backspace for removing a value",True,green)
-    # screen.blit(text2,(20,610))
-    # screen.blit(text3,(20,650))
 
 while True:
     screen.fill(white)
@@ -226,11 +226,6 @@ while True:
                     kakuro[curr_mouse_x+1][curr_mouse_y+1].horizontal_sum=9+10*kakuro[curr_mouse_x+1][curr_mouse_y+1].horizontal_sum
             if event.key==pygame.K_b:
                 kakuro[curr_mouse_x+1][curr_mouse_y+1].val=-1
-                for i in range(num_rows+1):
-                    for j in range(num_cols+1):
-                        print(kakuro[i][j].vertical_sum,' ',kakuro[i][j].horizontal_sum,end=' ')
-                    print()
-                print()
             if event.key==pygame.K_w:
                 kakuro[curr_mouse_x+1][curr_mouse_y+1].val=0
                 kakuro[curr_mouse_x+1][curr_mouse_y+1].vertical_sum=0
