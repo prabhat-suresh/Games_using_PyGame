@@ -41,6 +41,8 @@ font2 = pygame.font.SysFont("calibri", 40)
 curr_mouse_x=0
 curr_mouse_y=0
 
+fps = pygame.time.Clock()
+
 def is_move_ok(i,j,num):
     rowval,colval=[],[]
     for p in range(10):
@@ -253,3 +255,4 @@ while True:
                 solve(1,1)
 
     pygame.display.update()
+    fps.tick(15)
